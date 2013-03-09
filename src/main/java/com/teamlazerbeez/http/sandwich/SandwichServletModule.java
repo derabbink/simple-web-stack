@@ -16,15 +16,16 @@
 
 package com.teamlazerbeez.http.sandwich;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
 import com.teamlazerbeez.http.metrics.HttpStatusCodeMetricResourceFilterFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SandwichServletModule extends ServletModule {
 	@Override
@@ -39,8 +40,8 @@ public class SandwichServletModule extends ServletModule {
 		bind(JacksonJsonProvider.class).in(Scopes.SINGLETON);
 		
 		Map<String, String> guiceContainerConfig = new HashMap<String, String>();
-		guiceContainerConfig.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
-				HttpStatusCodeMetricResourceFilterFactory.class.getCanonicalName());
+		guiceContainerConfig.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES, HttpStatusCodeMetricResourceFilterFactory.class.getCanonicalName());
+		guiceContainerConfig.put(ServletContainer.PROPERTY_WEB_PAGE_CONTENT_REGEX, "/.*\\.(html|js|gif|png|css|ico)");
 		serve("/*").with(GuiceContainer.class, guiceContainerConfig);
 	}
 }

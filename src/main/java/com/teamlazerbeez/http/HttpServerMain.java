@@ -16,52 +16,22 @@
 
 package com.teamlazerbeez.http;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
+import java.io.File;
 
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceFilter;
-import com.teamlazerbeez.http.metrics.JerseyMetricsModule;
-import com.teamlazerbeez.http.sandwich.SandwichModule;
-import com.yammer.metrics.Metrics;
-import com.yammer.metrics.core.MetricsRegistry;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 public class HttpServerMain {
 	public static void main(String[] args) throws Exception {
-		Injector injector = Guice.createInjector(new AbstractModule() {
-			@Override
-			protected void configure() {
-				binder().requireExplicitBindings();
-				
-				install(new SandwichModule());
-				install(new JerseyMetricsModule());
-				
-				bind(GuiceFilter.class);
-				
-				bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());
-			}
-		});
-		
-		
 		Server server = new Server(8080);
-		
-		ServletContextHandler handler = new ServletContextHandler();
-		handler.setContextPath("/");
-		
-		handler.addServlet(new ServletHolder(new InvalidRequestServlet()), "/*");
-		
-		FilterHolder guiceFilter = new FilterHolder(injector.getInstance(GuiceFilter.class));
-		handler.addFilter(guiceFilter, "/*", EnumSet.allOf(DispatcherType.class));
-		
-		server.setHandler(handler);
+		server.setHandler(buildWebAppContext());
 		server.start();
+		//server.join();
+	}
+	
+	public static WebAppContext buildWebAppContext() throws Exception {
+		WebAppContext webAppContext = new WebAppContext();
+		webAppContext.setWar(new File("src/main/webapp/").getAbsolutePath());
+		return webAppContext;
 	}
 }
