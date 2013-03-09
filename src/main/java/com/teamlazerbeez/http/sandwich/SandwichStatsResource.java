@@ -27,16 +27,16 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/sandwich/stats")
 public class SandwichStatsResource {
-
-    private final SandwichStats sandwichStats;
-
-    @Inject
-    SandwichStatsResource(SandwichStats sandwichStats) {
-        this.sandwichStats = sandwichStats;
-    }
-
-    @GET
-    public SandwichStats.StatsSnapshot getStats() {
-        return sandwichStats.getStats();
-    }
+	
+	private final SandwichStats sandwichStats;
+	
+	@Inject
+	SandwichStatsResource(SandwichStats sandwichStats) {
+		this.sandwichStats = sandwichStats;
+	}
+	
+	@GET
+	public SandwichStats.StatsSnapshot getStats() {
+		return sandwichStats.getStats();
+	}
 }

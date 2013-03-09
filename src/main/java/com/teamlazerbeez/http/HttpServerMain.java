@@ -35,33 +35,33 @@ import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.MetricsRegistry;
 
 public class HttpServerMain {
-    public static void main(String[] args) throws Exception {
-        Injector injector = Guice.createInjector(new AbstractModule() {
-            @Override
-            protected void configure() {
-                binder().requireExplicitBindings();
-
-                install(new SandwichModule());
-                install(new JerseyMetricsModule());
-
-                bind(GuiceFilter.class);
-
-                bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());
-            }
-        });
-
-
-        Server server = new Server(8080);
-
-        ServletContextHandler handler = new ServletContextHandler();
-        handler.setContextPath("/");
-
-        handler.addServlet(new ServletHolder(new InvalidRequestServlet()), "/*");
-
-        FilterHolder guiceFilter = new FilterHolder(injector.getInstance(GuiceFilter.class));
-        handler.addFilter(guiceFilter, "/*", EnumSet.allOf(DispatcherType.class));
-
-        server.setHandler(handler);
-        server.start();
-    }
+	public static void main(String[] args) throws Exception {
+		Injector injector = Guice.createInjector(new AbstractModule() {
+			@Override
+			protected void configure() {
+				binder().requireExplicitBindings();
+				
+				install(new SandwichModule());
+				install(new JerseyMetricsModule());
+				
+				bind(GuiceFilter.class);
+				
+				bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());
+			}
+		});
+		
+		
+		Server server = new Server(8080);
+		
+		ServletContextHandler handler = new ServletContextHandler();
+		handler.setContextPath("/");
+		
+		handler.addServlet(new ServletHolder(new InvalidRequestServlet()), "/*");
+		
+		FilterHolder guiceFilter = new FilterHolder(injector.getInstance(GuiceFilter.class));
+		handler.addFilter(guiceFilter, "/*", EnumSet.allOf(DispatcherType.class));
+		
+		server.setHandler(handler);
+		server.start();
+	}
 }

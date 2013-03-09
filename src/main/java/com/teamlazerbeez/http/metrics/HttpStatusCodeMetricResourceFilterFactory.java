@@ -19,77 +19,76 @@ import java.util.List;
 
 @Singleton
 public final class HttpStatusCodeMetricResourceFilterFactory implements ResourceFilterFactory {
-
-    private static final Logger logger = LoggerFactory.getLogger(HttpStatusCodeMetricResourceFilterFactory.class);
-
-    private final MetricsRegistry metricsRegistry;
-
-    @Inject
-    HttpStatusCodeMetricResourceFilterFactory(MetricsRegistry metricsRegistry) {
-        this.metricsRegistry = metricsRegistry;
-    }
-
-    @Override
-    public List<ResourceFilter> create(AbstractMethod am) {
-
-        // documented to only be AbstractSubResourceLocator, AbstractResourceMethod, or AbstractSubResourceMethod
-        if (am instanceof AbstractSubResourceLocator) {
-            // not actually invoked per request, nothing to do
-            logger.debug("Ignoring AbstractSubResourceLocator " + am);
-            return null;
-        } else if (am instanceof AbstractResourceMethod) {
-            String metricBaseName = getMetricBaseName((AbstractResourceMethod) am);
-            Class<?> resourceClass = am.getResource().getResourceClass();
-
-            return Lists
-                .<ResourceFilter>newArrayList(
-                    new HttpStatusCodeMetricResourceFilter(metricsRegistry, metricBaseName, resourceClass));
-        } else {
-            logger.warn("Got an unexpected instance of " + am.getClass().getName() + ": " + am);
-            return null;
-        }
-    }
-
-    static String getMetricBaseName(AbstractResourceMethod am) {
-
-        String metricId = getPathWithoutSurroundingSlashes(am.getResource().getPath());
-
-        if (!metricId.isEmpty()) {
-            metricId = "/" + metricId;
-        }
-
-        String httpMethod;
-        if (am instanceof AbstractSubResourceMethod) {
-            // if this is a subresource, add on the subresource's path component
-            AbstractSubResourceMethod asrm = (AbstractSubResourceMethod) am;
-            metricId += "/" + getPathWithoutSurroundingSlashes(asrm.getPath());
-            httpMethod = asrm.getHttpMethod();
-        } else {
-            httpMethod = am.getHttpMethod();
-        }
-
-        if (metricId.isEmpty()) {
-            // this happens for WadlResource -- that case actually exists at "application.wadl" though
-            metricId = "(no path)";
-        }
-
-        metricId += " " + httpMethod;
-
-        return metricId;
-    }
-
-    private static String getPathWithoutSurroundingSlashes(@Nullable PathValue pathValue) {
-        if (pathValue == null) {
-            return "";
-        }
-        String value = pathValue.getValue();
-        if (value.startsWith("/")) {
-            value = value.substring(1);
-        }
-        if (value.endsWith("/")) {
-            value = value.substring(0, value.length() - 1);
-        }
-
-        return value;
-    }
+	
+	private static final Logger logger = LoggerFactory.getLogger(HttpStatusCodeMetricResourceFilterFactory.class);
+	
+	private final MetricsRegistry metricsRegistry;
+	
+	@Inject
+	HttpStatusCodeMetricResourceFilterFactory(MetricsRegistry metricsRegistry) {
+		this.metricsRegistry = metricsRegistry;
+	}
+	
+	@Override
+	public List<ResourceFilter> create(AbstractMethod am) {
+		
+		// documented to only be AbstractSubResourceLocator, AbstractResourceMethod, or AbstractSubResourceMethod
+		if (am instanceof AbstractSubResourceLocator) {
+			// not actually invoked per request, nothing to do
+			logger.debug("Ignoring AbstractSubResourceLocator " + am);
+			return null;
+		} else if (am instanceof AbstractResourceMethod) {
+			String metricBaseName = getMetricBaseName((AbstractResourceMethod) am);
+			Class<?> resourceClass = am.getResource().getResourceClass();
+			
+			return Lists.<ResourceFilter>newArrayList(
+					new HttpStatusCodeMetricResourceFilter(metricsRegistry, metricBaseName, resourceClass));
+		} else {
+			logger.warn("Got an unexpected instance of " + am.getClass().getName() + ": " + am);
+			return null;
+		}
+	}
+	
+	static String getMetricBaseName(AbstractResourceMethod am) {
+		
+		String metricId = getPathWithoutSurroundingSlashes(am.getResource().getPath());
+		
+		if (!metricId.isEmpty()) {
+			metricId = "/" + metricId;
+		}
+		
+		String httpMethod;
+		if (am instanceof AbstractSubResourceMethod) {
+			// if this is a subresource, add on the subresource's path component
+			AbstractSubResourceMethod asrm = (AbstractSubResourceMethod) am;
+			metricId += "/" + getPathWithoutSurroundingSlashes(asrm.getPath());
+			httpMethod = asrm.getHttpMethod();
+		} else {
+			httpMethod = am.getHttpMethod();
+		}
+		
+		if (metricId.isEmpty()) {
+			// this happens for WadlResource -- that case actually exists at "application.wadl" though
+			metricId = "(no path)";
+		}
+		
+		metricId += " " + httpMethod;
+		
+		return metricId;
+	}
+	
+	private static String getPathWithoutSurroundingSlashes(@Nullable PathValue pathValue) {
+		if (pathValue == null) {
+			return "";
+		}
+		String value = pathValue.getValue();
+		if (value.startsWith("/")) {
+			value = value.substring(1);
+		}
+		if (value.endsWith("/")) {
+			value = value.substring(0, value.length() - 1);
+		}
+		
+		return value;
+	}
 }

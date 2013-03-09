@@ -27,20 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SandwichServletModule extends ServletModule {
-    @Override
-    protected void configureServlets() {
-        bind(SandwichStatsResource.class);
-        bind(SandwichMakerResource.class);
-
-        // hook Jersey into Guice Servlet
-        bind(GuiceContainer.class);
-
-        // hook Jackson into Jersey as the POJO <-> JSON mapper
-        bind(JacksonJsonProvider.class).in(Scopes.SINGLETON);
-
-        Map<String, String> guiceContainerConfig = new HashMap<String, String>();
-        guiceContainerConfig.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
-            HttpStatusCodeMetricResourceFilterFactory.class.getCanonicalName());
-        serve("/*").with(GuiceContainer.class, guiceContainerConfig);
-    }
+	@Override
+	protected void configureServlets() {
+		bind(SandwichStatsResource.class);
+		bind(SandwichMakerResource.class);
+		
+		// hook Jersey into Guice Servlet
+		bind(GuiceContainer.class);
+		
+		// hook Jackson into Jersey as the POJO <-> JSON mapper
+		bind(JacksonJsonProvider.class).in(Scopes.SINGLETON);
+		
+		Map<String, String> guiceContainerConfig = new HashMap<String, String>();
+		guiceContainerConfig.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
+				HttpStatusCodeMetricResourceFilterFactory.class.getCanonicalName());
+		serve("/*").with(GuiceContainer.class, guiceContainerConfig);
+	}
 }

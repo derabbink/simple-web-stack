@@ -31,23 +31,23 @@ import javax.ws.rs.core.MediaType;
 @ThreadSafe
 @Path("/sandwich/create")
 public class SandwichMakerResource {
-
-    private final SandwichMaker sandwichMaker;
-
-    private final SandwichStats sandwichStats;
-
-    @Inject
-    SandwichMakerResource(SandwichMaker sandwichMaker, SandwichStats sandwichStats) {
-        this.sandwichMaker = sandwichMaker;
-        this.sandwichStats = sandwichStats;
-    }
-
-    @GET
-    public Sandwich makeSandwich(@QueryParam("jam") @DefaultValue("100") int gramsOfJam,
-                                 @QueryParam("peanutButter") @DefaultValue("200") int gramsOfPeanutButter) {
-        Sandwich sandwich = sandwichMaker.makeSandwich(gramsOfPeanutButter, gramsOfJam);
-        sandwichStats.recordSandwich(sandwich);
-
-        return sandwich;
-    }
+	
+	private final SandwichMaker sandwichMaker;
+	
+	private final SandwichStats sandwichStats;
+	
+	@Inject
+	SandwichMakerResource(SandwichMaker sandwichMaker, SandwichStats sandwichStats) {
+		this.sandwichMaker = sandwichMaker;
+		this.sandwichStats = sandwichStats;
+	}
+	
+	@GET
+	public Sandwich makeSandwich(@QueryParam("jam") @DefaultValue("100") int gramsOfJam,
+			@QueryParam("peanutButter") @DefaultValue("200") int gramsOfPeanutButter) {
+		Sandwich sandwich = sandwichMaker.makeSandwich(gramsOfPeanutButter, gramsOfJam);
+		sandwichStats.recordSandwich(sandwich);
+		
+		return sandwich;
+	}
 }

@@ -20,9 +20,9 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public class OrganicCrunchyValenciaPeanutButter implements PeanutButter {
-
-    @Override
-    public void applyToSandwich(Sandwich sandwich, int grams) {
-        sandwich.addPeanutButter(grams);
-    }
+	
+	@Override
+	public void applyToSandwich(Sandwich sandwich, int grams) {
+		sandwich.addPeanutButter(grams);
+	}
 }

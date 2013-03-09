@@ -6,24 +6,24 @@ import com.yammer.metrics.core.Timer;
 import com.yammer.metrics.core.TimerContext;
 
 final class TimingRequestDispatcher implements RequestDispatcher {
-
-    private final RequestDispatcher wrappedDispatcher;
-
-    private final Timer timer;
-
-    TimingRequestDispatcher(RequestDispatcher wrappedDispatcher, Timer timer) {
-        this.wrappedDispatcher = wrappedDispatcher;
-        this.timer = timer;
-    }
-
-    @Override
-    public void dispatch(Object resource, HttpContext context) {
-        final TimerContext time = timer.time();
-
-        try {
-            wrappedDispatcher.dispatch(resource, context);
-        } finally {
-            time.stop();
-        }
-    }
+	
+	private final RequestDispatcher wrappedDispatcher;
+	
+	private final Timer timer;
+	
+	TimingRequestDispatcher(RequestDispatcher wrappedDispatcher, Timer timer) {
+		this.wrappedDispatcher = wrappedDispatcher;
+		this.timer = timer;
+	}
+	
+	@Override
+	public void dispatch(Object resource, HttpContext context) {
+		final TimerContext time = timer.time();
+		
+		try {
+			wrappedDispatcher.dispatch(resource, context);
+		} finally {
+			time.stop();
+		}
+	}
 }

@@ -11,16 +11,16 @@ import javax.ws.rs.ext.Provider;
 @Singleton
 @Provider
 final class TimingResourceMethodDispatchAdapter implements ResourceMethodDispatchAdapter {
-
-    private final MetricsRegistry metricsRegistry;
-
-    @Inject
-    TimingResourceMethodDispatchAdapter(MetricsRegistry metricsRegistry) {
-        this.metricsRegistry = metricsRegistry;
-    }
-
-    @Override
-    public ResourceMethodDispatchProvider adapt(ResourceMethodDispatchProvider provider) {
-        return new TimingResourceMethodDispatchProvider(metricsRegistry, provider);
-    }
+	
+	private final MetricsRegistry metricsRegistry;
+	
+	@Inject
+	TimingResourceMethodDispatchAdapter(MetricsRegistry metricsRegistry) {
+		this.metricsRegistry = metricsRegistry;
+	}
+	
+	@Override
+	public ResourceMethodDispatchProvider adapt(ResourceMethodDispatchProvider provider) {
+		return new TimingResourceMethodDispatchProvider(metricsRegistry, provider);
+	}
 }

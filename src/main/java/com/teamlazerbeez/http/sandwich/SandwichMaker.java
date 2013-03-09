@@ -22,21 +22,21 @@ import javax.inject.Inject;
 
 @ThreadSafe
 public class SandwichMaker {
-
-    private final PeanutButter peanutButter;
-
-    @Inject
-    SandwichMaker(@Nonnull PeanutButter peanutButter) {
-        this.peanutButter = peanutButter;
-    }
-
-    Sandwich makeSandwich(int gramsOfPeanutButter, int gramsOfJam) {
-
-        Sandwich sandwich = new Sandwich();
-        peanutButter.applyToSandwich(sandwich, gramsOfPeanutButter);
-
-        // let's not overcomplicate things... jam is easy
-        sandwich.addJam(gramsOfJam);
-        return sandwich;
-    }
+	
+	private final PeanutButter peanutButter;
+	
+	@Inject
+	SandwichMaker(@Nonnull PeanutButter peanutButter) {
+		this.peanutButter = peanutButter;
+	}
+	
+	Sandwich makeSandwich(int gramsOfPeanutButter, int gramsOfJam) {
+		
+		Sandwich sandwich = new Sandwich();
+		peanutButter.applyToSandwich(sandwich, gramsOfPeanutButter);
+		
+		// let's not overcomplicate things... jam is easy
+		sandwich.addJam(gramsOfJam);
+		return sandwich;
+	}
 }

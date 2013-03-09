@@ -22,26 +22,26 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe
 public class Sandwich {
-
-    private int gramsOfPeanutButter;
-
-    private int gramsOfJam;
-
-    void addPeanutButter(int grams) {
-        gramsOfPeanutButter += grams;
-    }
-
-    void addJam(int grams) {
-        gramsOfJam += grams;
-    }
-
-    @JsonProperty
-    public int getGramsOfPeanutButter() {
-        return gramsOfPeanutButter;
-    }
-
-    @JsonProperty
-    public int getGramsOfJam() {
-        return gramsOfJam;
-    }
+	
+	private int gramsOfPeanutButter;
+	
+	private int gramsOfJam;
+	
+	void addPeanutButter(int grams) {
+		gramsOfPeanutButter += grams;
+	}
+	
+	void addJam(int grams) {
+		gramsOfJam += grams;
+	}
+	
+	@JsonProperty
+	public int getGramsOfPeanutButter() {
+		return gramsOfPeanutButter;
+	}
+	
+	@JsonProperty
+	public int getGramsOfJam() {
+		return gramsOfJam;
+	}
 }

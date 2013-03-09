@@ -24,16 +24,16 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 public class SandwichMakerTest {
-    @Test
-    public void testMockPeanutButter() throws Exception {
-
-        PeanutButter pbMock = EasyMock.createStrictMock(PeanutButter.class);
-        pbMock.applyToSandwich(EasyMock.<Sandwich>anyObject(), eq(300));
-
-        replay(pbMock);
-
-        SandwichMaker sandwichMaker = new SandwichMaker(pbMock);
-        sandwichMaker.makeSandwich(300, 200);
-        verify(pbMock);
-    }
+	@Test
+	public void testMockPeanutButter() throws Exception {
+		
+		PeanutButter pbMock = EasyMock.createStrictMock(PeanutButter.class);
+		pbMock.applyToSandwich(EasyMock.<Sandwich>anyObject(), eq(300));
+		
+		replay(pbMock);
+		
+		SandwichMaker sandwichMaker = new SandwichMaker(pbMock);
+		sandwichMaker.makeSandwich(300, 200);
+		verify(pbMock);
+	}
 }

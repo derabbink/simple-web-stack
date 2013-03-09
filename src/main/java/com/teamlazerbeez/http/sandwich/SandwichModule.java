@@ -20,14 +20,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 
 public class SandwichModule extends AbstractModule {
-
-    @Override
-    protected void configure() {
-        bind(PeanutButter.class).to(OrganicCrunchyValenciaPeanutButter.class).in(Scopes.SINGLETON);
-
-        bind(SandwichMaker.class);
-        bind(SandwichStats.class);
-
-        install(new SandwichServletModule());
-    }
+	
+	@Override
+	protected void configure() {
+		bind(PeanutButter.class).to(OrganicCrunchyValenciaPeanutButter.class).in(Scopes.SINGLETON);
+		
+		bind(SandwichMaker.class);
+		bind(SandwichStats.class);
+		
+		install(new SandwichServletModule());
+	}
 }

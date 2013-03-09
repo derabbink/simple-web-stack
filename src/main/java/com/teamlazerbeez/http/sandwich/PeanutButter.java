@@ -20,7 +20,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public interface PeanutButter {
-
-    void applyToSandwich(Sandwich sandwich, int grams);
-
+	
+	void applyToSandwich(Sandwich sandwich, int grams);
+	
 }
