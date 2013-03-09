@@ -16,6 +16,15 @@
 
 package com.teamlazerbeez.http;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -24,13 +33,6 @@ import com.teamlazerbeez.http.metrics.JerseyMetricsModule;
 import com.teamlazerbeez.http.sandwich.SandwichModule;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.MetricsRegistry;
-import org.eclipse.jetty.server.DispatcherType;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-
-import java.util.EnumSet;
 
 public class HttpServerMain {
     public static void main(String[] args) throws Exception {
